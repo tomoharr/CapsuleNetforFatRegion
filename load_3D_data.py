@@ -13,7 +13,6 @@ from sklearn.model_selection import train_test_split
 import matplotlib
 import matplotlib.pyplot as plt
 import cv2
-import pandas as pd
 # Processing Modules
 from tqdm import tqdm
 import threading
@@ -178,11 +177,8 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
         print('check1')
         if not no_masks:
             mask = cv2.imread(join(mask_path, img_name))
-            mask = np.reshape(mask, (mask.shape[0], mask.shape[1], mask.shape[2]))
-            # (image, height, width)
-            # mask = np.rollaxis(mask, 0, 3)
-            # (height, width, image)
-
+            mask = np.reshape(mask,
+                              (mask.shape[0], mask.shape[1], mask.shape[2]))
             # ======CHANGE FOR MULTI CLASS=========================-
             # Class 1 intensity:0
             # Class 2 intensity:63
@@ -191,7 +187,6 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
             # Other Class 0
             mask[mask == 0] = 1
             mask[mask != 1] = 0
-            # (height, width, class, image)
             # =====================================================
             mask = mask.astype(np.uint8)
             print('check')

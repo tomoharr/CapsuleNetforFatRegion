@@ -128,7 +128,6 @@ def test(args, test_list, model_list, net_input_shape):
             sitk_img = sitk.ReadImage(join(args.data_root_dir, 'imgs', img[0]))
             img_data = sitk.GetArrayFromImage(sitk_img)
 
-
             output_array = eval_model.predict_generator(
                 generate_test_batches(args.data_root_dir, [img],
                                       net_input_shape,
@@ -149,6 +148,7 @@ def test(args, test_list, model_list, net_input_shape):
             output_img = sitk.GetImageFromArray(output)
             print('Segmenting Output')
             output_bin = threshold_mask(output, args.thresh_level)
+            # (raw_output, threshold)
             output_mask = sitk.GetImageFromArray(output_bin)
 
             output_img.CopyInformation(sitk_img)

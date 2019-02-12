@@ -40,16 +40,15 @@ def main(args):
     model_list = create_model(args=args, input_shape=net_input_shape)
     print_summary(model=model_list[0], positions=[.38, .65, .75, 1.])
 
-    args.output_name = 'split-' + str(args.split_num) + \
-                       '_batch-' + str(args.batch_size) + \
-                       '_shuff-' + str(args.shuffle_data) + \
-                       '_aug-' + str(args.aug_data) + \
-                       '_loss-' + str(args.loss) + \
-                       '_slic-' + str(args.slices) + \
-                       '_sub-' + str(args.subsamp) + \
-                       '_strid-' + str(args.stride) + \
-                       '_lr-' + str(args.initial_lr) + \
-                       '_recon-' + str(args.recon_wei)
+    args.output_name = args.save_prefix +\
+        'a-batch-' + str(args.batch_size) + \
+        '_shuff-' + str(args.shuffle_data) + \
+        '_aug-' + str(args.aug_data) + \
+        '_loss-' + str(args.loss) + \
+        '_strid-' + str(args.stride) + \
+        '_lr-' + str(args.initial_lr) + \
+        '_recon-' + str(args.recon_wei)
+
     args.time = time
 
     args.check_dir = join(args.data_root_dir, 'saved_models', args.net)
@@ -194,8 +193,15 @@ if __name__ == '__main__':
                              '--which_gpus arg or if using CPU, '
                              'then this number will be inferred, '
                              'else this argument must be included.')
+    # training steps
+    parser.add_argument('--train_step', type=int, default=1000,
+                        help='number of iteration in 1 epoch')
 
-    arguments = parser.parse_args()
+    parser.add_argument('--epoch_num', type=int, default=5,
+                        help='number of epoch')
+
+    arguments = parser.parse_args('--aug_option', type=int, choices=[0, 1],
+                                  help='aug_option')
 
     # GPU Options
     if arguments.which_gpus == -2:
