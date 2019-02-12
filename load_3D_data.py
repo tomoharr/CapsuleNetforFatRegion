@@ -151,10 +151,10 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
         mkdir(fig_path)
     except FileExistsError:
         pass
-
-    ct_min = -1024
-    ct_max = 3072
-
+    # =======================
+    # ct_min = -1024
+    # ct_max = 3072
+    # =======================
     if not overwrite:
         try:
             with np.load(join(numpy_path, fname + '.npz')) as data:
@@ -170,14 +170,14 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
         # (height, width, image, (channel))
         img = img.astype(np.float32)
         # ===========================
-        img[img > ct_max] = ct_max
-        img[img < ct_min] = ct_min
-        img += -ct_min
-        img /= (ct_max + -ct_min)
+        # img[img > ct_max] = ct_max
+        # img[img < ct_min] = ct_min
+        # img += -ct_min
+        # img /= (ct_max + -ct_min)
         # ===========================
         #          <---->
         # ===========================
-        # img = img / 255
+        img = img / 255
         # ===========================
         if not no_masks:
             mask = cv2.imread(join(mask_path, img_name))
