@@ -167,13 +167,13 @@ def test(args, test_list, model_list, net_input_shape):
 
             # Generarte image
             f, ax = plt.subplots(1, 3, figsize=(15, 5))
-            ax[0].imshow(output[output.shape[0] // 2, :, :], alpha=1,
+            ax[0].imshow(output, alpha=1,
                          cmap='Reds')
-            ax[1].imshow(output[output.shape[0] // 2, :, :], alpha=1,
+            ax[1].imshow(gt_data, alpha=1,
                          cmap='Blues')
-            ax[2].imshow(output[output.shape[0] // 2, :, :], alpha=0.3,
+            ax[2].imshow(output, alpha=0.3,
                          cmap='Reds')
-            ax[2].imshow(output[output.shape[0] // 2, :, :], alpha=0.3,
+            ax[2].imshow(gt_data, alpha=0.3,
                          cmap='Blues')
             fig = plt.gcf()
             fig.suptitle(img[0][:-4])
