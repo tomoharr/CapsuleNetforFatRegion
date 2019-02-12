@@ -201,14 +201,15 @@ if __name__ == '__main__':
     parser.add_argument('--epoch_num', type=int, default=5,
                         help='number of epoch')
 
-    arguments = parser.parse_args('--aug_option', type=int, default=0,
-                                  choices=[0, 1], help='augmentetation_option')
+    parser.add_argument('--aug_option', type=int, default=0,
+                        choices=[0, 1], help='augmentetation_option')
 
-    arguments = parser.parse_args('--seg_class', type=int, default=1,
-                                  choices=[1, 2, 3, 4],
-                                  help='choose class for segmentation. '
-                                       '1: 0, 2: 63, 3: 127, 4: 91')
+    parser.add_argument('--seg_class', type=int, default=1,
+                        choices=[1, 2, 3, 4],
+                        help='choose class for segmentation. '
+                        '1: 0, 2: 63, 3: 127, 4: 91')
 
+    arguments = parser.parse_args()
     # GPU Options
     if arguments.which_gpus == -2:
         environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
