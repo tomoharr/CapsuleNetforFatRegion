@@ -169,12 +169,16 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
         # img = np.rollaxis(img, 0, 3)
         # (height, width, image, (channel))
         img = img.astype(np.float32)
+        # ===========================
         img[img > ct_max] = ct_max
         img[img < ct_min] = ct_min
         img += -ct_min
         img /= (ct_max + -ct_min)
-
-        print('check1')
+        # ===========================
+        #          <---->
+        # ===========================
+        # img = img / 255
+        # ===========================
         if not no_masks:
             mask = cv2.imread(join(mask_path, img_name))
             mask = np.reshape(mask,
@@ -266,11 +270,12 @@ def augmentImages(batch_of_images, batch_of_masks):
             # change this to put all channel in slices channel
             orig_shape = img_and_mask.shape
             img_and_mask = img_and_mask.reshape((img_and_mask.shape[0:3]))
-
+        # =====================================================-
         if np.random.randint(0, 10) == 7:
             img_and_mask = random_rotation(img_and_mask, rg=45, row_axis=0,
                                            col_axis=1, channel_axis=2,
                                            fill_mode='constant', cval=0.)
+        # ======================================================
 
         if np.random.randint(0, 5) == 3:
             img_and_mask = elastic_transform(img_and_mask, alpha=1000,

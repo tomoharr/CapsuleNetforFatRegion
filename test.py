@@ -165,6 +165,22 @@ def test(args, test_list, model_list, net_input_shape):
                                        'masks', img[0]))
             gt_data = sitk.GetArrayFromImage(sitk_mask)
 
+            # Generarte image
+            f, ax = plt.subplots(1, 3, figsize=(15, 5))
+            ax[0].imshow(output[output.shape[0] // 2, :, :], alpha=1,
+                         cmap='Reds')
+            ax[1].imshow(output[output.shape[0] // 2, :, :], alpha=1,
+                         cmap='Blues')
+            ax[2].imshow(output[output.shape[0] // 2, :, :], alpha=0.3,
+                         cmap='Reds')
+            ax[2].imshow(output[output.shape[0] // 2, :, :], alpha=0.3,
+                         cmap='Blues')
+            fig = plt.gcf()
+            fig.suptitle(img[0][:-4])
+            plt.savefig(join(fig_out_dir, img[0][:-4] + '_qual_fig' + '.png'),
+                        format='png', bbox_inches='tight')
+            plt.close('all')
+
             row = [img[0][:-4]]
             if args.compute_dice:
                 print('Computing Dice')
