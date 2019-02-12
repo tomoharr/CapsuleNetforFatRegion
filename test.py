@@ -151,8 +151,6 @@ def test(args, test_list, model_list, net_input_shape):
             # (raw_output, threshold)
             output_mask = sitk.GetImageFromArray(output_bin)
 
-            output_img.CopyInformation(sitk_img)
-            output_mask.CopyInformation(sitk_img)
             print('Saving Output')
 
             # sitk.WriteImage(output_img, join(raw_out_dir,
@@ -167,7 +165,7 @@ def test(args, test_list, model_list, net_input_shape):
 
             # Generarte image
             f, ax = plt.subplots(1, 3, figsize=(15, 5))
-            ax[0].imshow(output_img, alpha=1,
+            ax[0].imshow(output_mask, alpha=1,
                          cmap='Reds')
             ax[1].imshow(gt_data, alpha=1,
                          cmap='Blues')
