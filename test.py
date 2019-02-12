@@ -149,6 +149,7 @@ def test(args, test_list, model_list, net_input_shape):
             # output_img = sitk.GetImageFromArray(output)
             print('Segmenting Output')
             output_bin = threshold_mask(output, args.thresh_level)
+            output_bin = output_bin[0, :, :]
             # (raw_output, threshold)
             # output_mask = sitk.GetImageFromArray(output_bin)
 
@@ -183,6 +184,7 @@ def test(args, test_list, model_list, net_input_shape):
             sitk_mask = np.load(path_to_np)
             print('mask')
             gt_data = sitk_mask['mask']
+            gt_data = gt_data[:, :, 0]
             print(gt_data.shape)
 
             row = [img[0][:-4]]
