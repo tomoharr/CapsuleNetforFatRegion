@@ -182,7 +182,11 @@ def test(args, test_list, model_list, net_input_shape):
             path_to_np = join(args.data_root_dir, 'np_files',
                               img[0][:-3] + 'npz')
             sitk_mask = np.load(path_to_np)
-            gt_data = sitk_mask['mask'][:, :, 0]
+            print('mask')
+            gt_data = sitk_mask['mask']
+            print(gt_data.shape)
+            gt_data = gt_data[:, :, 0]
+            print(gt_data.shape)
 
             row = [img[0][:-4]]
             if args.compute_dice:
