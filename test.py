@@ -151,7 +151,7 @@ def test(args, test_list, model_list, net_input_shape):
             print('Segmenting Output')
             output_bin = threshold_mask(output, args.thresh_level)
             # (raw_output, threshold)
-            output_mask = sitk.GetImageFromArray(output_bin)
+            # output_mask = sitk.GetImageFromArray(output_bin)
 
             print('Saving Output')
 
@@ -161,25 +161,28 @@ def test(args, test_list, model_list, net_input_shape):
             # img[0][:-4] + '_final_output' + img[0][-4:]))
 
             # Load gt mask
-            sitk_mask = sitk.ReadImage(join(args.data_root_dir,
-                                       'masks', img[0]))
-            gt_data = sitk.GetArrayFromImage(sitk_mask)
+            # sitk_mask = sitk.ReadImage(join(args.data_root_dir, 'masks', img[0]))
+            # gt_data = sitk.GetArrayFromImage(sitk_mask)
 
             # Generarte image
-            f, ax = plt.subplots(1, 3, figsize=(15, 5))
-            ax[0].imshow(output, alpha=1,
-                         cmap='Reds')
-            ax[1].imshow(gt_data, alpha=1,
-                         cmap='Blues')
-            ax[2].imshow(output, alpha=0.3,
-                         cmap='Reds')
-            ax[2].imshow(gt_data, alpha=0.3,
-                         cmap='Blues')
-            fig = plt.gcf()
-            fig.suptitle(img[0][:-4])
-            plt.savefig(join(fig_out_dir, img[0][:-4] + '_qual_fig' + '.png'),
-                        format='png', bbox_inches='tight')
-            plt.close('all')
+            # f, ax = plt.subplots(1, 3, figsize=(15, 5))
+            # ax[0].imshow(output, alpha=1,
+            # cmap='Reds')
+            # ax[1].imshow(gt_data, alpha=1,
+            # cmap='Blues')
+            # ax[2].imshow(output, alpha=0.3,
+            # cmap='Reds')
+            # ax[2].imshow(gt_data, alpha=0.3,
+            # cmap='Blues')
+            # fig = plt.gcf()
+            # fig.suptitle(img[0][:-4])
+            # plt.savefig(join(fig_out_dir, img[0][:-4] + '_qual_fig' + '.png'),
+            # format='png', bbox_inches='tight')
+            # plt.close('all')
+            path_to_np = join(args.data_root_dir, 'np_files',
+                              img[0][:-3] + 'npz')
+            sitk_mask = np.load(path_to_np)
+            gt_data = sitk_mask['img']
 
             row = [img[0][:-4]]
             if args.compute_dice:
