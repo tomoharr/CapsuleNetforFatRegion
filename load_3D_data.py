@@ -545,7 +545,8 @@ def generate_test_batches(root_path, test_list, net_input_shape, batchSize=1,
             with np.load(path_to_np) as data:
                 test_img = data['img']
         except FileNotFoundError:
-            print('\nPre-made numpy array not found for {}.\nCreating now...'.format(scan_name[:-4]))
+            print('\nPre-made numpy array not found for'
+                  ' {}.\nCreating now...'.format(scan_name[:-4]))
             test_img = convert_data_to_numpy(root_path,
                                              scan_name, no_masks=False)
             test_img = test_img[1]
