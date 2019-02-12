@@ -145,6 +145,8 @@ def test(args, test_list, model_list, net_input_shape):
             else:
                 output = output_array[:, :, :, 0]
             output = output[0]
+            print('output')
+            print(output.shape)
             output_img = sitk.GetImageFromArray(output)
             print('Segmenting Output')
             output_bin = threshold_mask(output, args.thresh_level)
@@ -165,7 +167,7 @@ def test(args, test_list, model_list, net_input_shape):
 
             # Generarte image
             f, ax = plt.subplots(1, 3, figsize=(15, 5))
-            ax[0].imshow(output_img, alpha=1,
+            ax[0].imshow(output, alpha=1,
                          cmap='Reds')
             ax[1].imshow(gt_data, alpha=1,
                          cmap='Blues')
