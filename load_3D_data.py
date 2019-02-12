@@ -168,6 +168,8 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
         img = np.reshape(img, (img.shape[0], img.shape[1], img.shape[2]))
         # img = np.rollaxis(img, 0, 3)
         # (height, width, image, (channel))
+        img = img[:, :, 1]
+        img = img[:, :, np.newaxis]
         img = img.astype(np.float32)
         # ===========================
         # img[img > ct_max] = ct_max
@@ -183,6 +185,9 @@ def convert_data_to_numpy(root_path, img_name, no_masks=False,
             mask = cv2.imread(join(mask_path, img_name))
             mask = np.reshape(mask,
                               (mask.shape[0], mask.shape[1], mask.shape[2]))
+            mask = mask[:, :, 1]
+            mask = mask[:, :, np.newaxis]
+
             # ======CHANGE FOR MULTI CLASS=========================-
             # Class 1 intensity:0
             # Class 2 intensity:63
