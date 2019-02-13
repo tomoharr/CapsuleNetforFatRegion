@@ -208,6 +208,8 @@ if __name__ == '__main__':
                         choices=[1, 2, 3, 4],
                         help='choose class for segmentation. '
                         '1: 0, 2: 63, 3: 127, 4: 91')
+    parser.add_argument('--val_step', type=int, default=30,
+                        help='validation step')
 
     arguments = parser.parse_args()
     # GPU Options

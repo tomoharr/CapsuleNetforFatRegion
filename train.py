@@ -165,7 +165,7 @@ def train(args, train_list, val_list, u_model, net_input_shape):
                                              numSlices=args.slices,
                                              subSampAmt=0, stride=2,
                                              shuff=args.shuffle_data),
-        validation_steps=30, epochs=args.epoch_num,
+        validation_steps=args.val_step, epochs=args.epoch_num,
         callbacks=callbacks, verbose=args.verbose)
     # Set validation stride larger to see more of the data.
     # Plot the training data collected

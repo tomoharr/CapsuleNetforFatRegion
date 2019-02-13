@@ -43,20 +43,23 @@ def load_data(root, split):
               'split_lists', 'test_split_' + str(split) + '.csv'), 'r') as f:
         reader = csv.reader(f)
         testing_list = list(reader)
-        # check==================
-        print('test')
-        print(testing_list)
-        # =======================
-    new_training_list, validation_list =\
+
+    new_testing_list, temp_validation_list1 =\
+        train_test_split(testing_list, test_size=0.1, random_state=7)
+    new_training_list, temp_validation_list2 =\
         train_test_split(training_list, test_size=0.1, random_state=7)
+    validation_list = temp_validation_list1 + temp_validation_list2
+    # check==================
     # check==================
     print('new train')
-    print(new_training_list)
+    print(new_testing_list)
+    print('new taiin')
+    print(new_testing_list)
     print('validation')
     print(validation_list)
     # =======================
 
-    return new_training_list, validation_list, testing_list
+    return new_training_list, validation_list, new_testing_list
 
 
 def compute_class_weights(root, train_data_list):
