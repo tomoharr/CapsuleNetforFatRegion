@@ -522,6 +522,8 @@ def generate_val_batches(root_path, val_list, net_input_shape, net,
                 count += 1
                 if count % batchSize == 0:
                     count = 0
+                    img_batch, mask_batch =\
+                        augmentImages(img_batch, mask_batch)
                     if net.find('caps') != -1:
                         yield ([img_batch, mask_batch],
                                [mask_batch, mask_batch * img_batch])
@@ -529,6 +531,8 @@ def generate_val_batches(root_path, val_list, net_input_shape, net,
                         yield (img_batch, mask_batch)
 
         if count != 0:
+            img_batch[:count, ...], mask_batch[:count, ...] = \
+                augmentImages(img_batch[:count, ...], mask_batch[:count, ...])
             if net.find('caps') != -1:
                 yield ([img_batch[:count, ...], mask_batch[:count, ...]],
                        [mask_batch[:count, ...],
