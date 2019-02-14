@@ -125,9 +125,6 @@ def test(args, test_list, model_list, net_input_shape):
         writer.writerow(row)
 
         for i, img in enumerate(tqdm(test_list)):
-            sitk_img = sitk.ReadImage(join(args.data_root_dir, 'imgs', img[0]))
-            img_data = sitk.GetArrayFromImage(sitk_img)
-
             output_array = eval_model.predict_generator(
                 generate_test_batches(args.data_root_dir, [img],
                                       net_input_shape,
@@ -152,40 +149,39 @@ def test(args, test_list, model_list, net_input_shape):
             output_bin = output_bin[0, :, :]
             # (raw_output, threshold)
             # output_mask = sitk.GetImageFromArray(output_bin)
-
-            print('Saving Output')
-
-            # sitk.WriteImage(output_img, join(raw_out_dir,
-            # img[0][:-4] + '_raw_output' + img[0][-4:]))
-            # sitk.WriteImage(output_mask, join(fin_out_dir,
-            # img[0][:-4] + '_final_output' + img[0][-4:]))
-
-            # Load gt mask
-            # sitk_mask = sitk.ReadImage(join(args.data_root_dir, 'masks', img[0]))
-            # gt_data = sitk.GetArrayFromImage(sitk_mask)
-
-            # Generarte image
-            # f, ax = plt.subplots(1, 3, figsize=(15, 5))
-            # ax[0].imshow(output, alpha=1,
-            # cmap='Reds')
-            # ax[1].imshow(gt_data, alpha=1,
-            # cmap='Blues')
-            # ax[2].imshow(output, alpha=0.3,
-            # cmap='Reds')
-            # ax[2].imshow(gt_data, alpha=0.3,
-            # cmap='Blues')
-            # fig = plt.gcf()
-            # fig.suptitle(img[0][:-4])
-            # plt.savefig(join(fig_out_dir, img[0][:-4] + '_qual_fig' + '.png'),
-            # format='png', bbox_inches='tight')
-            # plt.close('all')
             path_to_np = join(args.data_root_dir, 'np_files',
                               img[0][:-3] + 'npz')
             sitk_mask = np.load(path_to_np)
             print('mask')
             gt_data = sitk_mask['mask']
             gt_data = gt_data[:, :, 0]
+            intn_data = sitk_mask['img']
+            intn_data = intn_data[:, :, 0]
             print(gt_data.shape)
+
+            print('Saving Output')
+            indiv_fig_dir = join(fig_out_dir, args.save_prefix)
+            try:
+                makedirs(indiv_fig_dir)
+            except FileExistsError:
+                pass
+
+            # Generarte image
+            f, ax = plt.subplots(1, 3, figsize=(15, 5))
+            ax[0].imshow(intn_data, alpha=1, cmap='gray')
+            ax[0].imshow(output_bin, alpha=0.2, cmap='Reds')
+            ax[0].set_title('Predict Mask')
+            ax[1].imshow(intn_data, alpha=1, cmap='gray')
+            ax[1].imshow(gt_data, alpha=0.2, cmap='Blues')
+            ax[1].set_title('True Mask')
+            ax[2].imshow(output_bin, alpha=0.3, cmap='Reds')
+            ax[2].imshow(gt_data, alpha=0.3, cmap='Blues')
+            ax[2].set_title('Comparison')
+            fig = plt.gcf()
+            fig.suptitle(img[0][:-4])
+            plt.savefig(join(indiv_fig_dir, img[0][:-4] + '_qual_fig' + '.png'),
+                        format='png', bbox_inches='tight')
+            plt.close('all')
 
             row = [img[0][:-4]]
             if args.compute_dice:
@@ -198,13 +194,6 @@ def test(args, test_list, model_list, net_input_shape):
                 jacc_arr[i] = jc(output_bin, gt_data)
                 print('\tJaccard: {}'.format(jacc_arr[i]))
                 row.append(jacc_arr[i])
-            if args.compute_assd:
-                print('Computing ASSD')
-                assd_arr[i] = assd(output_bin, gt_data,
-                                   voxelspacing=sitk_img.GetSpacing(),
-                                   connectivity=1)
-                print('\tASSD: {}'.format(assd_arr[i]))
-                row.append(assd_arr[i])
 
             writer.writerow(row)
 
