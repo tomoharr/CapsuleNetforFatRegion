@@ -10,7 +10,9 @@ from __future__ import absolute_import
 import tensorflow as tf
 from keras.engine import Layer
 from keras.utils.generic_utils import get_custom_objects
-from keras.utils.conv_utils import normalize_data_format
+# from keras.utils.conv_utils import normalize_data_format
+import keras.backend as K
+
 
 class SubPixelUpscaling(Layer):
     """ This layer requires a Convolution2D prior to it, having output filters computed according to
@@ -52,7 +54,8 @@ class SubPixelUpscaling(Layer):
         super(SubPixelUpscaling, self).__init__(**kwargs)
 
         self.scale_factor = scale_factor
-        self.data_format = normalize_data_format(data_format)
+        # self.data_format = normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
 
     def build(self, input_shape):
         pass
