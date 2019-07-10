@@ -13,6 +13,35 @@ This is a repository for my bachelar thesis, "Segmentation of Fat Region on CT I
 
 ## FILES ##
 
-### FILES ###
+### CODES ###
+
+ネットワークのアーキテクチャおよびコードはRodney LaLonde, Ulas Bagci :“Capsules for Object Segmentation”, 1st Con- ference on Medical Imaging with Deep Learning (MIDL 2018), 2018.より引用&改変。
+
+* main.py :
+* subpixel_upscaling.py : 
+* capsnet.py
+* manip.py
+* test.py
+* capsule_layers.py
+* metrics.py            
+* custom_data_aug.py
+* model_helper.py
+* train.py
+* custom_losses.py
+* densenets.py
+* load_3D_data.py
+
+画像ファイルの処理用
+
+* pre.py : 画像の前処理に用いたコード
+
 ### RESULSTS ###
+./results/
+
+* capsule 
+* tiramisu
+
 ### THESIS ###
+
+* short.pdf
+* thesis.pdf
