@@ -5,8 +5,9 @@ from os import makedirs
 from os import environ
 import argparse
 from time import gmtime, strftime
-# ML Modules
+# image processing module
 import SimpleITK as sitk
+# ML Modules
 from keras.utils import print_summary
 # User Modules
 from load_3D_data import load_data, split_data
@@ -86,11 +87,6 @@ def main(args):
         # Run testing
         test(args, test_list, model_list, net_input_shape)
 
-    if args.manip:
-        from manip import manip
-        # Run manipulation of segcaps
-        manip(args, test_list, model_list, net_input_shape)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train on Medical Data')
@@ -106,8 +102,7 @@ if __name__ == '__main__':
                         help='Which training split to train/test on.')
     # Network Model
     parser.add_argument('--net', type=str.lower, default='segcapsr3',
-                        choices=['segcapsr3', 'segcapsr1',
-                                 'segcapsbasic', 'unet', 'tiramisu'],
+                        choices=['segcapsr3', 'tiramisu'],
                         help='Choose your network.')
     # Training
     parser.add_argument('--train', type=int, default=1, choices=[0, 1],
@@ -115,9 +110,6 @@ if __name__ == '__main__':
     # Test
     parser.add_argument('--test', type=int, default=1, choices=[0, 1],
                         help='Set to 1 to enable testing.')
-    # Manipulation
-    parser.add_argument('--manip', type=int, default=1, choices=[0, 1],
-                        help='Set to 1 to enable manipulation.')
     # Shuffle
     parser.add_argument('--shuffle_data', type=int, default=1, choices=[0, 1],
                         help='Whether or not to shuffle the training data '

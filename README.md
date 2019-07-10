@@ -29,7 +29,7 @@ This is a repository for my bachelar thesis, "Segmentation of Fat Region on CT I
 ### CODES ###
 
 * main.py
-* capsnet.py : カプセルネットワークのアーキテクチャ
+* capsnet.py : カプセルネットワークのアーキテクチャ(ルーティング回数は3回)
 * capsule_layers.py : カプセルネットワークのカプセル層
 * subpixel_upscaling.py : ネットワークのアップスケール部分
 * model_helper.py : モデル読み込み
