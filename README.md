@@ -45,12 +45,6 @@ This is a repository for my bachelar thesis, "Segmentation of Fat Region on CT I
 
 * pre.py : 画像の前処理に用いたコード
 
-### RESULSTS ###
-./results/
-
-* capsule : カプセルネットワークを用いたセグメンテーション結果
-* tiramisu : 比較手法tiramisuでのセグメンテーション結果
-
 ### THESIS ###
 
 * short.pdf : 卒論概要
